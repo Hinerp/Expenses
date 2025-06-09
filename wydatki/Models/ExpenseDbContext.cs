@@ -8,4 +8,12 @@ public class ExpenseDbContext : DbContext
     
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<Category> Categories { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Category>().HasData();
+        modelBuilder.Entity<Expense>().HasData();
+    }
 }
