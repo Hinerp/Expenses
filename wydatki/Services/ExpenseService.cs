@@ -14,6 +14,9 @@ public class ExpenseService : IExpenseService
 
     public async Task<List<Expense>> GetExpensesAsync()
     {
-        return await _db.Expenses.ToListAsync();
+        return await _db.Expenses
+                // to jest zeby ustawialo kategorie w obiekcie bo jakos tego nie robi
+            .Include(e => e.Category)
+            .ToListAsync();
     }
 }
