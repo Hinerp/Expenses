@@ -1,21 +1,25 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using wydatki.Models;
+using wydatki.Services;
 
 namespace wydatki.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IExpenseService _expenseService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IExpenseService expenseService)
     {
         _logger = logger;
+        _expenseService = expenseService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var Expenses = await _expenseService.GetExpensesAsync();
+        return View(Expenses);
     }
 
     public IActionResult Privacy()

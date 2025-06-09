@@ -1,7 +1,22 @@
-﻿namespace wydatki.Services;
+﻿using Microsoft.EntityFrameworkCore;
+using wydatki.Models;
 
-public class ExpenseService
+namespace wydatki.Services;
+
+public class ExpenseService : IExpenseService
 {
-    // niewem co tu dac ale zeby bylo narazie xd
-    // pewnie jakies funckje ze getExpenses, getExpensesByCategory ig
+    private readonly ExpenseDbContext _db;
+
+    public ExpenseService(ExpenseDbContext db)
+    {
+        _db = db;
+    } 
+
+    public async Task<List<Expense>> GetExpensesAsync()
+    {
+        return await _db.Expenses
+                // to jest zeby ustawialo kategorie w obiekcie bo jakos tego nie robi
+            .Include(e => e.Category)
+            .ToListAsync();
+    }
 }
