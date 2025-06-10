@@ -19,4 +19,11 @@ public class ExpenseService : IExpenseService
             .Include(e => e.Category)
             .ToListAsync();
     }
+
+    public async Task<Expense> GetExpenseAsync(int ExpenseId)
+    {
+        return await _db.Expenses
+            .Include(e => e.Category)
+            .FirstOrDefaultAsync(e => e.Id == ExpenseId);
+    }
 }

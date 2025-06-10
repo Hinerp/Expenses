@@ -22,6 +22,22 @@ public class HomeController : Controller
         return View(Expenses);
     }
 
+    public async Task<IActionResult> Details(int ExpenseId)
+    {
+        var expense = await _expenseService.GetExpenseAsync(ExpenseId);
+        return View(expense);
+    }
+
+    public async Task<IActionResult> Delete(int ExpenseId)
+    {
+        return RedirectToAction("Index");
+    }
+    
+    public async Task<IActionResult> Edit(int ExpenseId)
+    {
+        return RedirectToAction("Index");
+    }
+
     public IActionResult Privacy()
     {
         return View();
