@@ -22,6 +22,11 @@ public class HomeController : Controller
         return View(Expenses);
     }
 
+    public async Task<IActionResult> Details(int ExpenseId)
+    {
+        return RedirectToAction("Index");
+    }
+
     public IActionResult Privacy()
     {
         return View();
