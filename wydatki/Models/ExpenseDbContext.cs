@@ -13,7 +13,10 @@ public class ExpenseDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Category>().HasData();
-        modelBuilder.Entity<Expense>().HasData();
+        modelBuilder.Entity<Category>().Property(c => c.Id).ValueGeneratedOnAdd();
+        modelBuilder.Entity<Expense>().Property(e => e.Id).ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Category>().HasData(new Category("Jedzenie") {Id = 1}, new Category("Mieszkanie") {Id =2});
+        modelBuilder.Entity<Expense>().HasData(new Expense("Czynsz",2311.52,2) {Id = 1});
     }
 }
