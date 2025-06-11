@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using wydatki.Models;
 using wydatki.Services;
 
@@ -36,12 +37,43 @@ public class HomeController : Controller
     
     public async Task<IActionResult> Edit(int ExpenseId)
     {
-        return View();
-    }
+        var expense = await _expenseService.GetExpenseAsync(ExpenseId);
+        var categories = await _expenseService.GetCategoriesAsync();
+        
+        ViewBag.Categories = categories.Select(c => new SelectListItem
+        {
+            Text = c.Name,  // Displayed text
+            Value = c.Id.ToString() // Value of the option
+        }).ToList();
 
+        return View(expense);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Edit(Expense expense)
+    {
+        _expenseService.EditExpenseAsync(expense);
+        return RedirectToAction("Index");
+    }
+    
     public async Task<IActionResult> AddExpense()
     {
-        return View(await _expenseService.GetCategoriesAsync());
+        var categories = await _expenseService.GetCategoriesAsync();
+
+        ViewBag.Categories = categories.Select(c => new SelectListItem
+        {
+            Text = c.Name,  // Displayed text
+            Value = c.Id.ToString() // Value of the option
+        }).ToList();
+        
+        return View();
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> AddExpense(Expense expense)
+    {
+        _expenseService.AddExpenseAsync(expense);
+        return RedirectToAction("Index");
     }
     
     public async Task<IActionResult> AddCategory()
