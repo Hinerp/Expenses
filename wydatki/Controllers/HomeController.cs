@@ -16,9 +16,9 @@ public class HomeController : Controller
         _expenseService = expenseService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string filter="")
     {
-        var Expenses = await _expenseService.GetExpensesAsync();
+        var Expenses = (filter!="")?await _expenseService.GetExpensesByNameAsync(filter):await _expenseService.GetExpensesAsync();
         return View(Expenses);
     }
 
@@ -30,13 +30,25 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Delete(int ExpenseId)
     {
+        _expenseService.DeleteExpenseAsync(ExpenseId);
         return RedirectToAction("Index");
     }
     
     public async Task<IActionResult> Edit(int ExpenseId)
     {
-        return RedirectToAction("Index");
+        return View();
     }
+
+    public async Task<IActionResult> AddExpense()
+    {
+        return View(await _expenseService.GetCategoriesAsync());
+    }
+    
+    public async Task<IActionResult> AddCategory()
+    {
+        return View();
+    }
+    
 
     public IActionResult Privacy()
     {
