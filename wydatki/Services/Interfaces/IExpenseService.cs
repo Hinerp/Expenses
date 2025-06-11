@@ -8,7 +8,7 @@ public interface IExpenseService
     public  Task<Expense> GetExpenseAsync(int ExpenseId);
     public Task DeleteExpenseAsync(int ExpenseId);
     public Task EditExpenseAsync(Expense Expense);
-    public Task AddCategoryAsync(string Name);
+    public Task AddCategoryAsync(Category category);
     public Task AddExpenseAsync(Expense Expense);
     public Task<List<Category>> GetCategoriesAsync();
 

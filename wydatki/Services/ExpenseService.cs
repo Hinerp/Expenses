@@ -66,9 +66,9 @@ public class ExpenseService : IExpenseService
          await _db.SaveChangesAsync();
     }
 
-    public async Task AddCategoryAsync(string name)
+    public async Task AddCategoryAsync(Category category)
     {
-        _db.Categories.Add(new Category(name));
+        _db.Categories.Add(category);
         await _db.SaveChangesAsync();
     }
 
