@@ -5,7 +5,7 @@
 }
 
 <div class="text-center">
-    <h1>Expense Details</h1>
+    <h1>Expense nr. @Model.Id</h1>
 
     <table class="table table-bordered">
         <tr>
@@ -20,10 +20,10 @@
             <th>Cost</th>
             <td>@Model.Amount zł</td>
         </tr>
-        @* <tr> *@
-        @*     <th>Date</th> *@
-        @*     <td>@Model.Date.ToString("yyyy-MM-dd")</td> *@
-        @* </tr> *@
+        <tr>
+            <th>Date</th>
+            <td>@Model.Date.ToString("yyyy-MM-dd")</td>
+        </tr>
     </table>
 
     <div class="mt-3">
