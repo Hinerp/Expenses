@@ -18,7 +18,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index(string filter="")
     {
-        var Expenses = await _expenseService.GetExpensesAsync();
+        var Expenses = (filter!="")?await _expenseService.GetExpensesByNameAsync(filter):await _expenseService.GetExpensesAsync();
         return View(Expenses);
     }
 

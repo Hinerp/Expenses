@@ -27,6 +27,14 @@ public class ExpenseService : IExpenseService
             .FirstOrDefaultAsync(e => e.Id == ExpenseId);
     }
 
+    public async Task<List<Expense>> GetExpensesByNameAsync(string expenseName)
+    {
+        return await _db.Expenses.Where(e=> e.Name == expenseName)
+        // to jest zeby ustawialo kategorie w obiekcie bo jakos tego nie robi
+        .Include(e => e.Category)
+        .ToListAsync();
+    }
+
     public async void DeleteExpenseAsync(int ExpenseId)
     {
         _db.Expenses.Remove(await _db.Expenses.FindAsync(ExpenseId));

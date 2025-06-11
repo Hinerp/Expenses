@@ -10,7 +10,7 @@ ViewData["Title"] = "Home Page";
     <table class="table">
         <tr>
             <th>
-                Description
+                Name
             </th>
             <th>
                 Category
@@ -23,7 +23,7 @@ ViewData["Title"] = "Home Page";
         {
             <tr class="clickable-row" onclick="location.href='@Url.Action("Details", "Home", new { ExpenseId = item.Id })'">
                 <td>
-                    @item.Description
+                    @item.Name
                 </td>
                 <td>
                     @item.Category.Name

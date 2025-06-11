@@ -3,6 +3,8 @@
 public class Expense
 {
     public int Id { get; set; }
+    
+    public string Name { get; set; }
     public string Description { get; set; } // na co wydales piniadze
     public double Amount { get; set; } // w zlotych
     
@@ -14,8 +16,9 @@ public class Expense
     {
     }
 
-    public Expense(string Desc,double Am, int CatId, DateTime Dat)
+    public Expense(string Nam,string Desc,double Am, int CatId, DateTime Dat)
     {
+        Name = Nam;
         Description = Desc;
         Amount = Am;
         CategoryId = CatId;
