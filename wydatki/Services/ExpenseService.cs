@@ -35,33 +35,48 @@ public class ExpenseService : IExpenseService
         .ToListAsync();
     }
 
-    public async void DeleteExpenseAsync(int ExpenseId)
+    public async Task DeleteExpenseAsync(int expenseId)
     {
-        _db.Expenses.Remove(await _db.Expenses.FindAsync(ExpenseId));
-        _db.SaveChangesAsync();
+        var expenseToDelete = await _db.Expenses.FirstOrDefaultAsync(e => e.Id == expenseId);
+
+        if (expenseToDelete == null)
+        {
+            throw new ArgumentException($"Expense with ID {expenseId} not found.");
+        }
+
+        _db.Expenses.Remove(expenseToDelete);
+        await _db.SaveChangesAsync();
     }
 
 
-    public async void EditExpenseAsync(Expense Expense, int ExpenseId)
+    public async Task EditExpenseAsync(Expense exp)
     {
-        Expense expenseToUpdate = await _db.Expenses.FindAsync(ExpenseId);
-        
-        expenseToUpdate.Amount = Expense.Amount;
-        expenseToUpdate.Description = Expense.Description;
-        expenseToUpdate.CategoryId = Expense.CategoryId;
-        expenseToUpdate.Date = Expense.Date;
+        var expenseToUpdate = await _db.Expenses.FirstOrDefaultAsync(e => e.Id == exp.Id);
+
+        if (expenseToUpdate == null)
+        {
+            throw new ArgumentException($"Expense with ID {exp.Id} not found.");
+        }
+
+        expenseToUpdate.Name = exp.Name;
+        expenseToUpdate.Amount = exp.Amount;
+        expenseToUpdate.Description = exp.Description;
+        expenseToUpdate.CategoryId = exp.CategoryId;
+        expenseToUpdate.Date = exp.Date;
+
+         await _db.SaveChangesAsync();
     }
 
-    public async void AddCategoryAsync(string Name)
+    public async Task AddCategoryAsync(Category category)
     {
-        _db.Categories.Add(new Category(Name));
-        _db.SaveChangesAsync();
+        _db.Categories.Add(category);
+        await _db.SaveChangesAsync();
     }
 
-    public async void AddExpenseAsync(Expense Expense)
+    public async Task AddExpenseAsync(Expense expense)
     {
-        _db.Expenses.Add(Expense);
-        _db.SaveChangesAsync();
+        _db.Expenses.Add(expense);
+        await _db.SaveChangesAsync();
     }
 
     public async Task<List<Category>> GetCategoriesAsync()
