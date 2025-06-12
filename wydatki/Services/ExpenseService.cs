@@ -49,19 +49,20 @@ public class ExpenseService : IExpenseService
     }
 
 
-    public async Task EditExpenseAsync(Expense expense)
+    public async Task EditExpenseAsync(Expense exp)
     {
-        var expenseToUpdate = await _db.Expenses.FirstOrDefaultAsync(e => e.Id == expense.Id);
+        var expenseToUpdate = await _db.Expenses.FirstOrDefaultAsync(e => e.Id == exp.Id);
 
         if (expenseToUpdate == null)
         {
-            throw new ArgumentException($"Expense with ID {expense.Id} not found.");
+            throw new ArgumentException($"Expense with ID {exp.Id} not found.");
         }
 
-        expenseToUpdate.Amount = expense.Amount;
-        expenseToUpdate.Description = expense.Description;
-        expenseToUpdate.CategoryId = expense.CategoryId;
-        expenseToUpdate.Date = expense.Date;
+        expenseToUpdate.Name = exp.Name;
+        expenseToUpdate.Amount = exp.Amount;
+        expenseToUpdate.Description = exp.Description;
+        expenseToUpdate.CategoryId = exp.CategoryId;
+        expenseToUpdate.Date = exp.Date;
 
          await _db.SaveChangesAsync();
     }

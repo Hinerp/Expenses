@@ -31,7 +31,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Delete(int ExpenseId)
     {
-        _expenseService.DeleteExpenseAsync(ExpenseId);
+        await _expenseService.DeleteExpenseAsync(ExpenseId);
         return RedirectToAction("Index");
     }
     
@@ -52,10 +52,9 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(Expense expense)
     {
-        _expenseService.EditExpenseAsync(expense);
+        await _expenseService.EditExpenseAsync(expense);
         return RedirectToAction("Index");
     }
-    
     public async Task<IActionResult> AddExpense()
     {
         var categories = await _expenseService.GetCategoriesAsync();
