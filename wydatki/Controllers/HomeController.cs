@@ -10,17 +10,29 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IExpenseService _expenseService;
+   
 
     public HomeController(ILogger<HomeController> logger, IExpenseService expenseService)
     {
         _logger = logger;
         _expenseService = expenseService;
-    }
+        
+}
 
-    public async Task<IActionResult> Index(string filter="")
+    public async Task<IActionResult> Index(string sorter ="Name", string filter = "", int? category = null)
     {
-        var Expenses = (filter!="")?await _expenseService.GetExpensesByNameAsync(filter):await _expenseService.GetExpensesAsync();
-        return View(Expenses);
+        // Fetch categories for the dropdown
+        var categories = await _expenseService.GetCategoriesAsync();
+        ViewBag.Categories = categories.Select(c => new SelectListItem
+        {
+            Text = c.Name,
+            Value = c.Id.ToString()
+        }).ToList();
+
+   
+        // Fetch expenses based on filter and sorter
+        var expenses = await _expenseService.GetExpensesAsync(filter, category ,sorter);
+        return View(expenses);
     }
 
     public async Task<IActionResult> Details(int ExpenseId)
@@ -83,8 +95,8 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> AddCategory(Category category,bool prevSite)
     {
-        _expenseService.AddCategoryAsync(category);
-        return RedirectToAction((prevSite)?"AddExpense":"Edit");
+        await _expenseService.AddCategoryAsync(category);
+        return RedirectToAction("Index");
     }
 
     public IActionResult Privacy()

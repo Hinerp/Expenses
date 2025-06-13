@@ -24,3 +24,104 @@ body {
 .clickable-row:hover{
   background-color: lightcyan;
 }
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3 {
+  color: #343a40;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+
+/* Forms */
+form {
+  margin: 20px auto;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form input[type="text"], form input[type="number"], form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+form button,.butt {
+  margin-bottom: 5px;
+  width: 100%;
+}
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+table th, table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #007bff;
+  /*color: #fff;*/
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tr:hover {
+  background-color: #e9ecef;
+  cursor: pointer;
+}
+
+/* Container */
+.text-center {
+  text-align: center;
+  margin: 20px;
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #343a40;
+  color: #fff;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
