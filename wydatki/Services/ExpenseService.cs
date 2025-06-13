@@ -21,24 +21,21 @@ public class ExpenseService : IExpenseService
             .FirstOrDefaultAsync(e => e.Id == ExpenseId);
     }
 
-    public async Task<List<Expense>> GetExpensesByNameAsync(string expenseName, string sorter)
+    public async Task<List<Expense>> GetExpensesAsync(string expenseName, int? categoryId ,string sorter)
     {
-        IQueryable<Expense> query;
-        if (expenseName != "")
+        IQueryable<Expense> query = _db.Expenses.Include(e => e.Category);
+
+        if (!string.IsNullOrEmpty(expenseName))
         {
-             query = _db.Expenses.Where(e => EF.Functions.Like(e.Name, $"%{expenseName}%"))
-                // to jest zeby ustawialo kategorie w obiekcie bo jakos tego nie robi
-                .Include(e => e.Category)
-                .AsQueryable();
+            query = query.Where(e => EF.Functions.Like(e.Name, $"%{expenseName}%"));
         }
-        else
+
+        if (categoryId.HasValue)
         {
-             query = _db.Expenses
-                .Include(e => e.Category)
-                .AsQueryable();
+            query = query.Where(e => e.CategoryId == categoryId.Value);
         }
-    
-    switch (sorter)
+
+        switch (sorter)
         {
             case "Name":
                 query = query.OrderBy(e => e.Name);
@@ -102,7 +99,7 @@ public class ExpenseService : IExpenseService
     }
 
     public async Task AddExpenseAsync(Expense expense)
-    {
+    {   if(expense.Date==new DateTime(0001,01,01)) expense.Date = DateTime.Today;
         _db.Expenses.Add(expense);
         await _db.SaveChangesAsync();
     }

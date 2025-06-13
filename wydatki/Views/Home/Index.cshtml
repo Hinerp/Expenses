@@ -1,5 +1,5 @@
 ﻿@{
-ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home Page";
 }
 @using Azure.Core
 @using Microsoft.AspNetCore.Mvc.TagHelpers
@@ -7,47 +7,36 @@ ViewData["Title"] = "Home Page";
 
 <div class="text-center">
     <h1>Expenses</h1>
-    <a asp-action="AddExpense" class="btn btn-info">Add Expense</a> <br/>
-    <form asp-action="Index" method="get">
-        <div style="text-align: left">
-            <b>Name:</b>
-            <input type="text" id="filter" name="filter" value="@ViewContext.HttpContext.Request.Query["filter"]" placeholder="Name"/>
-            <div>
-                <b>Category:</b>
-                <select name="category" asp-items="ViewBag.Categories" class="form-control">
-                    <option value="">All</option>
-                </select>
-            </div>
-            
-            <button type="submit" class="btn btn-primary">Filter</button>
-            <a asp-action="Index" class="btn btn-secondary butt">Reset</a>
-        </div>
-    </form>
-    <table class="table">
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Category
-            </th>
-            <th>
-                Cost
-            </th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            <tr class="clickable-row" onclick="location.href='@Url.Action("Details", "Home", new { ExpenseId = item.Id })'">
-                <td>
-                    @item.Name
-                </td>
-                <td>
-                    @item.Category.Name
-                </td>
-                <td>
-                    @item.Amount zł
-                </td>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <table class="table" style="width: 70%;">
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Cost</th>
             </tr>
-        }
-    </table>
+            @foreach (var item in Model)
+            {
+                <tr class="clickable-row" onclick="location.href='@Url.Action("Details", "Home", new { ExpenseId = item.Id })'">
+                    <td>@item.Name</td>
+                    <td>@item.Category.Name</td>
+                    <td>@item.Amount zł</td>
+                </tr>
+            }
+        </table>
+        <form asp-action="Index" method="get" style="width: 25%; margin-left: 20px;">
+            <div style="text-align: left">
+                <b>Name:</b>
+                <input type="text" id="filter" name="filter" value="@ViewContext.HttpContext.Request.Query["filter"]" placeholder="Name"/>
+                <div>
+                    <b>Category:</b>
+                    <select name="category" asp-items="ViewBag.Categories" class="form-control">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <a asp-action="Index" class="btn btn-secondary butt">Reset</a>
+            </div>
+        </form>
+    </div>
 </div>

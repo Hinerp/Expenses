@@ -11,7 +11,7 @@ public interface IExpenseService
     public Task AddExpenseAsync(Expense Expense);
     public Task<List<Category>> GetCategoriesAsync();
 
-    public Task<List<Expense>> GetExpensesByNameAsync(string expenseName, string sorter);
-    
+    public Task<List<Expense>> GetExpensesAsync(string expenseName, int? categoryId, string sorter);
+
 
 }

@@ -19,7 +19,7 @@ public class HomeController : Controller
         
 }
 
-    public async Task<IActionResult> Index(string sorter ="Name", string filter = "")
+    public async Task<IActionResult> Index(string sorter ="Name", string filter = "", int? category = null)
     {
         // Fetch categories for the dropdown
         var categories = await _expenseService.GetCategoriesAsync();
@@ -31,7 +31,7 @@ public class HomeController : Controller
 
    
         // Fetch expenses based on filter and sorter
-        var expenses = await _expenseService.GetExpensesByNameAsync(filter, sorter);
+        var expenses = await _expenseService.GetExpensesAsync(filter, category ,sorter);
         return View(expenses);
     }
 
