@@ -94,6 +94,7 @@ public class ExpenseService : IExpenseService
 
     public async Task AddCategoryAsync(Category category)
     {
+        if (string.IsNullOrEmpty(category.Name)) return;
         _db.Categories.Add(category);
         await _db.SaveChangesAsync();
     }
