@@ -12,7 +12,8 @@ ViewData["Title"] = "Home Page";
         <div>
             <label for="filter">Filter by Name:</label>
             <input type="text" id="filter" name="filter" value="@ViewContext.HttpContext.Request.Query["filter"]" />
-            <button type="submit">Filter</button>
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a asp-action="Index" class="btn btn-secondary butt">Reset</a>
         </div>
     </form>
     <table class="table">

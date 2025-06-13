@@ -83,8 +83,8 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> AddCategory(Category category,bool prevSite)
     {
-        _expenseService.AddCategoryAsync(category);
-        return RedirectToAction((prevSite)?"AddExpense":"Edit");
+        await _expenseService.AddCategoryAsync(category);
+        return RedirectToAction("Index");
     }
 
     public IActionResult Privacy()

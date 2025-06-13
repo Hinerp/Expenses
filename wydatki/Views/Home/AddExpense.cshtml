@@ -38,8 +38,9 @@
         <label asp-for="CategoryId">Category</label>
         <select asp-for="CategoryId" asp-items="ViewBag.Categories"></select>
         <span asp-validation-for="CategoryId" class="text-danger"></span>
-    </div>
 
-    <button type="submit">Save Expense</button>
-    <a asp-action="AddCategory" asp-route-prevSite="1" class="btn btn-primary">Add Category</a>
+        <a asp-action="AddCategory" asp-route-prevSite="1"><button>Add Category</button></a>
+    </div>
+    <br/>
+    <button type="submit" style="height: 50px">Save Expense</button>
 </form>
