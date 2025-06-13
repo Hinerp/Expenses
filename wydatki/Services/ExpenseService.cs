@@ -12,13 +12,7 @@ public class ExpenseService : IExpenseService
         _db = db;
     } 
 
-    public async Task<List<Expense>> GetExpensesAsync()
-    {
-        return await _db.Expenses
-                // to jest zeby ustawialo kategorie w obiekcie bo jakos tego nie robi
-            .Include(e => e.Category)
-            .ToListAsync();
-    }
+    
 
     public async Task<Expense> GetExpenseAsync(int ExpenseId)
     {
@@ -27,12 +21,46 @@ public class ExpenseService : IExpenseService
             .FirstOrDefaultAsync(e => e.Id == ExpenseId);
     }
 
-    public async Task<List<Expense>> GetExpensesByNameAsync(string expenseName)
+    public async Task<List<Expense>> GetExpensesByNameAsync(string expenseName, string sorter)
     {
-        return await _db.Expenses.Where(e=> e.Name == expenseName)
-        // to jest zeby ustawialo kategorie w obiekcie bo jakos tego nie robi
-        .Include(e => e.Category)
-        .ToListAsync();
+        IQueryable<Expense> query;
+        if (expenseName != "")
+        {
+             query = _db.Expenses.Where(e => EF.Functions.Like(e.Name, $"%{expenseName}%"))
+                // to jest zeby ustawialo kategorie w obiekcie bo jakos tego nie robi
+                .Include(e => e.Category)
+                .AsQueryable();
+        }
+        else
+        {
+             query = _db.Expenses
+                .Include(e => e.Category)
+                .AsQueryable();
+        }
+    
+    switch (sorter)
+        {
+            case "Name":
+                query = query.OrderBy(e => e.Name);
+                break;
+            case "Lowest Cost":
+                query = query.OrderBy(e => e.Amount);
+                break;
+            case "Highest Cost":
+                query = query.OrderByDescending(e => e.Amount);
+                break;
+            case "Newest":
+                query = query.OrderByDescending(e => e.Date);
+                break;
+            case "Oldest":
+                query = query.OrderBy(e => e.Date);
+                break;
+            default:
+                query = query.OrderBy(e => e.Name);
+                break;
+        }
+
+        return await query.ToListAsync();
     }
 
     public async Task DeleteExpenseAsync(int expenseId)
@@ -83,4 +111,5 @@ public class ExpenseService : IExpenseService
     {
         return await _db.Categories.ToListAsync();
     }
+    
 }
